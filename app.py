@@ -10,9 +10,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# -------------------------
 # Helper: load data
-# -------------------------
 @st.cache_data
 def load_data():
     data_bunch = fetch_california_housing(as_frame=True)
@@ -20,9 +18,7 @@ def load_data():
     df.rename(columns={"MedHouseVal": "MedHouseValue"}, inplace=True)
     return df, data_bunch
 
-# -------------------------
 # Page layout
-# -------------------------
 st.set_page_config(
     page_title="Interactive ML Lab – California Housing",
     layout="wide"
@@ -74,9 +70,7 @@ random_state = st.sidebar.number_input(
 st.sidebar.markdown("---")
 train_button = st.sidebar.button("Train / Retrain Model")
 
-# -------------------------
-# 1. Data overview
-# -------------------------
+# Data overview
 st.subheader("1. Dataset Overview")
 
 with st.expander("Show data dictionary"):
@@ -99,9 +93,7 @@ with st.expander("Show data dictionary"):
 st.write("Preview of the dataset:")
 st.dataframe(df.head())
 
-# -------------------------
-# 2. Quick EDA
-# -------------------------
+# Quick EDA
 st.subheader("2. Quick EDA")
 
 col1, col2 = st.columns(2)
@@ -135,16 +127,14 @@ with col2:
 
 st.markdown(
     """
-**Teaching note:** Encourage students to *talk about patterns* they see:
+**Think** about the patterns you're seeing:
 - Does the relationship look linear?
 - Are there obvious outliers?
 - How might this affect model choice?
 """
 )
 
-# -------------------------
-# 3. Modeling
-# -------------------------
+# Modeling
 st.subheader("3. Train a Model")
 
 X = df[feature_cols].values
@@ -168,7 +158,7 @@ if train_button:
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
-    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    rmse = mean_squared_error(y_test, y_pred)**0.5
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
 
